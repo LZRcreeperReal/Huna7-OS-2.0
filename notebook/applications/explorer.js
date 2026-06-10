@@ -115,7 +115,7 @@ Huna7.Apps.Explorer = (() => {
       updateBreadcrumbs();
     };
 
-    const refresh = async () => {
+    async function refresh() {
       currentEntries = await Huna7.VFS.readDir(nav.current());
       render();
     };
@@ -216,7 +216,7 @@ Huna7.Apps.Explorer = (() => {
       ]);
     };
 
-    const newFolder = async () => {
+    async function newFolder() {
       const name = await Huna7.Toolbox.showPrompt('New Folder', 'Folder name');
       if (!name) return;
       await Huna7.Folder.createFolder(nav.current(), name);
