@@ -18,11 +18,11 @@ Huna7.CONSTANTS = {
 
   // Boot timing (ms)
   BOOT_STAGES: [
-    { id: 'firmware',  label: 'Firmware Initialization',     duration: 1800 },
-    { id: 'storage',   label: 'Storage Mount',               duration: 2200 },
-    { id: 'kernel',    label: 'Kernel Startup',              duration: 2000 },
-    { id: 'services',  label: 'Service Registration',        duration: 1800 },
-    { id: 'desktop',   label: 'Desktop Environment Launch',  duration: 1500 },
+    { id: 'firmware',  label: 'Firmware Initialization',     duration: 900 },
+    { id: 'storage',   label: 'Storage Mount',               duration: 1100 },
+    { id: 'kernel',    label: 'Kernel Startup',              duration: 1000 },
+    { id: 'services',  label: 'Service Registration',        duration: 900 },
+    { id: 'desktop',   label: 'Desktop Environment Launch',  duration: 750 },
   ],
 
   // Desktop
