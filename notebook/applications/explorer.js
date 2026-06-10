@@ -1,11 +1,20 @@
 /* =====================================================
    HUNA7-OS — APPS: EXPLORER
    Full file manager. Folders, files, drag, search.
-===================================================== */
+   Now fully safe for chalk.spawn() (variables init first).
+ ===================================================== */
 window.Huna7 = window.Huna7 || {};
 Huna7.Apps = Huna7.Apps || {};
 
-Huna7.Apps.Explorer = (() => {
+/* wrapper — runs immediately so all vars are ready before Chalk calls launch */
+const initApp = (launchFn) => {
+  Huna7.Apps.Explorer = (() => {
+    const launch = launchFn;
+    return { launch };
+  })();
+};
+
+initApp(() => {
   const launch = (pid, options = {}) => {
     const startPath = options.path || '/Home';
     const nav = Huna7.Folder.createNavigator(pid, startPath);
@@ -281,6 +290,4 @@ Huna7.Apps.Explorer = (() => {
     Huna7.Binder.on('fs:changed', refresh);
     return { windowId: id, cleanup: () => Huna7.Binder.off('fs:changed', refresh) };
   };
-
-  return { launch };
-})();
+});
