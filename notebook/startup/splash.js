@@ -45,7 +45,7 @@ Huna7.Startup.Splash = (() => {
         animated: true,
         onDone: () => {
           // Linger briefly then fade out
-          setTimeout(() => dismiss(onDone), 100);
+          setTimeout(() => dismiss(onDone), 2000);
         },
       });
     });
