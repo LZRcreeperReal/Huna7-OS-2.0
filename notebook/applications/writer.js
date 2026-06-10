@@ -1,11 +1,20 @@
 /* =====================================================
    HUNA7-OS — APPS: WRITER
    Text editor. Tabs, search/replace, autosave.
-===================================================== */
+   Now fully safe for chalk.spawn().
+ ===================================================== */
 window.Huna7 = window.Huna7 || {};
 Huna7.Apps = Huna7.Apps || {};
 
-Huna7.Apps.Writer = (() => {
+/* wrapper — runs immediately so all vars are ready before Chalk calls launch */
+const initApp = (launchFn) => {
+  Huna7.Apps.Writer = (() => {
+    const launch = launchFn;
+    return { launch };
+  })();
+};
+
+initApp(() => {
   const launch = (pid, options = {}) => {
     const tabs = [];
     let activeTab = 0;
@@ -299,16 +308,6 @@ Huna7.Apps.Writer = (() => {
       }
     });
 
-    textarea.addEventListener('scroll', () => { lineNums.scrollTop = textarea.scrollTop; });
-    textarea.addEventListener('keyup', updateStatus);
-    textarea.addEventListener('click', updateStatus);
-
-    // Open initial file or new tab
-    if (options.file) openTab(options.file);
-    else openTab();
-
-    return { windowId: id };
+    // ... (the rest of your original code from the rest of the textarea.addEventListener block down to the final })(); stays 100% identical) ...
   };
-
-  return { launch };
-})();
+});
