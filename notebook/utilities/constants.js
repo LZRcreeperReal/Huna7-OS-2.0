@@ -22,7 +22,7 @@ Huna7.CONSTANTS = {
     { id: 'storage',   label: 'Storage Mount',               duration: 1100 },
     { id: 'kernel',    label: 'Kernel Startup',              duration: 1000 },
     { id: 'services',  label: 'Service Registration',        duration: 900 },
-    { id: 'desktop',   label: 'Desktop Environment Launch',  duration: 4000 },
+    { id: 'desktop',   label: 'Desktop Environment Launch',  duration: 1000 },
   ],
 
   // Desktop
