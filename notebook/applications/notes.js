@@ -1,11 +1,20 @@
 /* =====================================================
    HUNA7-OS — APPS: NOTES
    Rich note-taking with notebooks.
-===================================================== */
+   Now fully safe for chalk.spawn().
+ ===================================================== */
 window.Huna7 = window.Huna7 || {};
 Huna7.Apps = Huna7.Apps || {};
 
-Huna7.Apps.Notes = (() => {
+/* wrapper — runs immediately so all vars are ready before Chalk calls launch */
+const initApp = (launchFn) => {
+  Huna7.Apps.Notes = (() => {
+    const launch = launchFn;
+    return { launch };
+  })();
+};
+
+initApp(() => {
   const launch = (pid, options = {}) => {
     const { id, contentEl } = Huna7.Desk.createWindow({
       title: 'Notes', appId: 'notes', width: 720, height: 500,
@@ -133,6 +142,4 @@ Huna7.Apps.Notes = (() => {
     loadNotes();
     return { windowId: id };
   };
-
-  return { launch };
-})();
+});
