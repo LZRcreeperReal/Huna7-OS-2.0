@@ -41,12 +41,14 @@ Huna7.Desk = (() => {
     // Traffic lights
     const lights = document.createElement('div');
     lights.style.cssText = 'display:flex;gap:7px;align-items:center;flex-shrink:0;';
+    lights.className = 'h7-trafficlights';
     const mkLight = (color, hoverColor, action) => {
       const btn = document.createElement('div');
       btn.style.cssText = `width:13px;height:13px;border-radius:50%;background:${color};cursor:pointer;
         transition:filter 150ms ease;flex-shrink:0;`;
       btn.addEventListener('mouseenter', () => btn.style.filter = 'brightness(1.2)');
       btn.addEventListener('mouseleave', () => btn.style.filter = '');
+      btn.addEventListener('pointerdown', (e) => { e.stopPropagation(); e.preventDefault(); });
       btn.addEventListener('click', (e) => { e.stopPropagation(); action(); });
       return btn;
     };
@@ -165,7 +167,10 @@ Huna7.Desk = (() => {
     let dragging = false, ox = 0, oy = 0;
     handle.style.cursor = 'grab';
     handle.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('div[style*="border-radius:50%"]')) return; // Don't drag from buttons
+      // Never drag when clicking any button or interactive element in the titlebar
+      if (e.target.closest('button,a,[role="button"]')) return;
+      if (e.target.closest('.h7-trafficlights')) return;
+      if (e.button !== 0) return; // left button only
       dragging = true;
       ox = e.clientX - win.offsetLeft;
       oy = e.clientY - win.offsetTop;
