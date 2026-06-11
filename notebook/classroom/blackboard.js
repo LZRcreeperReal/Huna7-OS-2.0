@@ -180,9 +180,9 @@ Huna7.Blackboard = (() => {
   const _openEntry = (entry) => {
     const ext = Huna7.Helpers.getFileExtension(entry.name);
     if (entry.type === 'directory') Huna7.Chalk.spawn('explorer', { path: entry.path });
-    else if (ext === '.note') Huna7.Chalk.spawn('writer', { file: entry.path });
+    else if (ext === '.note') Huna7.Chalk.spawn('glibrary', { file: entry.path });
     else if (ext === '.pencil') Huna7.VoxScript.Runtime.runFile(entry.path, { outputFn: console.log });
-    else Huna7.Chalk.spawn('writer', { file: entry.path });
+    else Huna7.Chalk.spawn('glibrary', { file: entry.path });
   };
 
   const _startClock = () => {
