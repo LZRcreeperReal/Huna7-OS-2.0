@@ -11,7 +11,7 @@ Huna7.Blackboard = (() => {
   let _statusBar = null;
   let _clockInterval = null;
 
-  const getDockApps = () => Huna7.Notebook?.Shortcuts?.getDockOrder?.() || ["explorer","terminal","writer","notes","voxstudio","orbit","settings","monitor","calculator","themes"];
+  const getDockApps = () => Huna7.Notebook?.Shortcuts?.getDockOrder?.() || ["explorer","terminal","glibrary","notes","voxstudio","orbit","settings","monitor","calculator","themes"];
 
   const render = (root) => {
     _root = root;
