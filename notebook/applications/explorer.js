@@ -70,6 +70,10 @@ Huna7.Apps.Explorer = (() => {
 
     const newFolderBtn = mkBtn('plus', 'New Folder', newFolder);
 
+    // 🔥 THIS IS YOUR ORIGINAL MYSTERY SLOT FIXED
+    const spacer = document.createElement('div');
+    spacer.style.flex = '1';
+
     // Search
     const searchInput = document.createElement('input');
     searchInput.className = 'h7-input';
@@ -93,6 +97,7 @@ Huna7.Apps.Explorer = (() => {
       fwdBtn,
       upBtn,
       refreshBtn,
+      spacer,
       deleteBtn,
       newFolderBtn,
       searchInput,
@@ -107,12 +112,11 @@ Huna7.Apps.Explorer = (() => {
       'display:flex;align-items:center;gap:4px;padding:4px 12px;font-size:12px;color:var(--h7-text-muted);flex-shrink:0;overflow:hidden;';
 
     // =========================
-    // Body
+    // Layout
     // =========================
     const body = document.createElement('div');
     body.style.cssText = 'display:flex;flex:1;overflow:hidden;min-height:0;';
 
-    // Sidebar
     const sidebar = document.createElement('div');
     sidebar.style.cssText =
       'width:160px;border-right:1px solid var(--h7-border);overflow-y:auto;padding:8px;flex-shrink:0;';
@@ -159,11 +163,7 @@ Huna7.Apps.Explorer = (() => {
               i === arr.length - 1
                 ? 'color:var(--h7-text);font-weight:500;'
                 : ''
-            }">${c.name}</span>${
-              i < arr.length - 1
-                ? Huna7.Glossary.get('chevronRight', 10)
-                : ''
-            }`
+            }">${c.name}</span>`
         )
         .join('');
 
@@ -190,7 +190,7 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // Render
+    // RENDER
     // =========================
     function render() {
       fileList.innerHTML = '';
@@ -199,6 +199,7 @@ Huna7.Apps.Explorer = (() => {
         fileList.appendChild(
           Huna7.Sketch.emptyState('folder', 'Empty folder', 'No files here')
         );
+        statusBar.textContent = `0 items`;
         return;
       }
 
@@ -208,24 +209,17 @@ Huna7.Apps.Explorer = (() => {
         fileList.style.display = 'flex';
         fileList.style.flexWrap = 'wrap';
         fileList.style.gap = '8px';
-
-        sorted.forEach(entry =>
-          fileList.appendChild(buildGridItem(entry))
-        );
+        sorted.forEach(e => fileList.appendChild(buildGridItem(e)));
       } else {
         fileList.style.display = 'block';
-        sorted.forEach(entry =>
-          fileList.appendChild(buildListItem(entry))
-        );
+        sorted.forEach(e => fileList.appendChild(buildListItem(e)));
       }
 
-      statusBar.textContent = `${currentEntries.length} items${
-        selected.size ? ` — ${selected.size} selected` : ''
-      }`;
+      statusBar.textContent = `${currentEntries.length} items — ${selected.size} selected`;
     }
 
     // =========================
-    // List Item
+    // LIST ITEM
     // =========================
     function buildListItem(entry) {
       const row = document.createElement('div');
@@ -246,7 +240,7 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // Grid Item
+    // GRID ITEM
     // =========================
     function buildGridItem(entry) {
       const item = document.createElement('div');
@@ -267,9 +261,15 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // Selection logic
+    // SELECTION FIX (REAL HIGHLIGHT)
     // =========================
     function attachHandlers(el, entry) {
+      const update = () => {
+        el.style.background = selected.has(entry.path)
+          ? 'rgba(94,127,255,0.18)'
+          : '';
+      };
+
       el.addEventListener('click', e => {
         if (!e.ctrlKey && !e.metaKey) selected.clear();
 
@@ -285,10 +285,12 @@ Huna7.Apps.Explorer = (() => {
         e.preventDefault();
         entryContextMenu(e, entry);
       });
+
+      update();
     }
 
     // =========================
-    // Open file
+    // OPEN FILE
     // =========================
     function openEntry(entry) {
       if (entry.type === 'directory') return navigate(entry.path);
@@ -303,7 +305,7 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // Context menu
+    // CONTEXT MENU
     // =========================
     function entryContextMenu(e, entry) {
       Huna7.Toolbox.showContextMenu(e.clientX, e.clientY, [
@@ -317,7 +319,7 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // File ops
+    // FILE OPS
     // =========================
     async function newFolder() {
       const name = await Huna7.Toolbox.showPrompt('New Folder', 'Folder name');
@@ -349,11 +351,8 @@ Huna7.Apps.Explorer = (() => {
       refresh();
     }
 
-    // =========================
-    // MULTI DELETE (NEW)
-    // =========================
     async function deleteSelected() {
-      if (selected.size === 0) return;
+      if (!selected.size) return;
 
       const ok = await Huna7.Toolbox.showModal(
         'Delete Selected',
@@ -366,17 +365,12 @@ Huna7.Apps.Explorer = (() => {
 
       if (!ok) return;
 
-      await Promise.all(
-        [...selected].map(p => Huna7.VFS.deleteEntry(p))
-      );
+      await Promise.all([...selected].map(p => Huna7.VFS.deleteEntry(p)));
 
       selected.clear();
       refresh();
     }
 
-    // =========================
-    // Search
-    // =========================
     async function doSearch() {
       const q = searchInput.value.trim();
       if (!q) return refresh();
@@ -386,7 +380,7 @@ Huna7.Apps.Explorer = (() => {
     }
 
     // =========================
-    // Init
+    // INIT
     // =========================
     fileList.addEventListener('contextmenu', e => {
       if (e.target === fileList) {
@@ -394,39 +388,25 @@ Huna7.Apps.Explorer = (() => {
         Huna7.Toolbox.showContextMenu(e.clientX, e.clientY, [
           { icon: 'plus', label: 'New Folder', action: newFolder },
           ...(clipboard
-            ? [
-                {
-                  icon: 'paste',
-                  label: 'Paste',
-                  action: async () => {
-                    const dest =
-                      nav.current() + '/' + clipboard.entry.name;
+            ? [{
+                icon: 'paste',
+                label: 'Paste',
+                action: async () => {
+                  const dest = nav.current() + '/' + clipboard.entry.name;
 
-                    if (clipboard.op === 'copy')
-                      await Huna7.VFS.copyEntry(
-                        clipboard.entry.path,
-                        dest
-                      );
-                    else
-                      await Huna7.VFS.moveEntry(
-                        clipboard.entry.path,
-                        dest
-                      );
+                  if (clipboard.op === 'copy')
+                    await Huna7.VFS.copyEntry(clipboard.entry.path, dest);
+                  else
+                    await Huna7.VFS.moveEntry(clipboard.entry.path, dest);
 
-                    clipboard = null;
-                    refresh();
-                  },
-                },
-              ]
-            : []),
+                  clipboard = null;
+                  refresh();
+                }
+              }]
+            : [])
         ]);
       }
     });
-
-    if (options.searchQuery) {
-      searchInput.value = options.searchQuery;
-      doSearch();
-    }
 
     navigate(startPath);
     updateBreadcrumbs();
