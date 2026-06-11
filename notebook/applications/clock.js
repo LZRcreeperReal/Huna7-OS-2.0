@@ -8,7 +8,7 @@ Huna7.Apps = Huna7.Apps || {};
 Huna7.Apps.Clock = (() => {
   function launch(pid, options = {}) {
     const { id, contentEl } = Huna7.Desk.createWindow({
-      title: 'Clock', appId: 'clock', width: 420, height: 460,
+      title: 'Clock', appId: 'clock', width: 420, height: 490,
     });
     contentEl.style.cssText = 'display:flex;flex-direction:column;';
 
