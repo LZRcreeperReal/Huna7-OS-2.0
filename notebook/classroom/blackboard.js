@@ -24,6 +24,7 @@ Huna7.Blackboard = (() => {
     _buildDock();
     Huna7.Bulletin.init(_root);
     Huna7.Desk.init(_desktop);
+    Huna7.Taskbar.init(_root);
     _bindEvents();
     _startClock();
     _renderDesktopIcons();
