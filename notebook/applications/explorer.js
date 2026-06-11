@@ -56,9 +56,18 @@ Huna7.Apps.Explorer = (() => {
       render();
     });
 
-    toolbar.append(backBtn, fwdBtn, upBtn, refreshBtn, document.createElement('div'), newFolderBtn, searchInput, viewBtn);
-    const sep = toolbar.children[4];
-    sep.style.cssText = 'flex:1;';
+    const deleteBtn = mkBtn('trash', 'Delete Selected', deleteSelected);
+
+    toolbar.append(
+      backBtn,
+      fwdBtn,
+      upBtn,
+      refreshBtn,
+      deleteBtn,
+      newFolderBtn,
+      searchInput,
+      viewBtn
+    );
 
     // Breadcrumbs
     const breadcrumbs = document.createElement('div');
