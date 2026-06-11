@@ -19,7 +19,7 @@ Huna7.Notebook.Registry = (() => {
 
     // Installed apps (builtin)
     'apps.installed': [
-      'explorer','terminal','taskmanager','themes','settings',
+      'explorer','terminal','writer','themes','settings',
       'calculator','clock','media','orbit','voxstudio',
       'monitor','notes','images','audio','workspace','packagecenter',
     ],
