@@ -42,10 +42,10 @@ Huna7.Apps.Writer = (() => {
       return b;
     };
 
-    const saveBtn    = mkBtn('download', 'Save (Ctrl+S)', saveActive, 'Save');
-    const findBtn    = mkBtn('search',   'Find (Ctrl+F)', toggleFind, 'Find');
-    const runBtn     = mkBtn('play',     'Run Script',    runScript,  'Run');
-    const wordWrapBtn = mkBtn('list',    'Toggle Word Wrap', toggleWordWrap, 'Wrap');
+    const saveBtn    = mkBtn('download', 'Save (Ctrl+S)', () => saveActive(), 'Save');
+    const findBtn    = mkBtn('search',   'Find (Ctrl+F)', () => toggleFind(), 'Find');
+    const runBtn     = mkBtn('play',     'Run Script',    () => runScript(), 'Run');
+    const wordWrapBtn = mkBtn('list',    'Toggle Word Wrap', () => toggleWordWrap(), 'Wrap');
 
     const sep = document.createElement('div'); sep.style.cssText = 'width:1px;height:16px;background:var(--h7-border);margin:0 2px;';
     const sep2 = sep.cloneNode();
