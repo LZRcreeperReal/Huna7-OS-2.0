@@ -187,16 +187,15 @@ Huna7.Desk = (() => {
 
   const _addResizeHandles = (win, id) => {
     const edges = [
-      // edges only
-      { pos: 'n',  cursor: 'ns-resize', style: 'top:0;left:4px;right:4px;height:5px;' },
-      { pos: 's',  cursor: 'ns-resize', style: 'bottom:0;left:4px;right:4px;height:5px;' },
-      { pos: 'e',  cursor: 'ew-resize', style: 'top:4px;right:0;bottom:4px;width:5px;' },
-      { pos: 'w',  cursor: 'ew-resize', style: 'top:4px;left:0;bottom:4px;width:5px;' },
-
-      // bottom corners only (safe)
-      { pos: 'se', cursor: 'se-resize', style: 'bottom:0;right:0;width:10px;height:10px;' },
-      { pos: 'sw', cursor: 'sw-resize', style: 'bottom:0;left:0;width:10px;height:10px;' },
-];
+      { pos: 'n',  cursor: 'ns-resize',   style: 'top:0;left:4px;right:4px;height:5px;' },
+      { pos: 's',  cursor: 'ns-resize',   style: 'bottom:0;left:4px;right:4px;height:5px;' },
+      { pos: 'e',  cursor: 'ew-resize',   style: 'top:4px;right:0;bottom:4px;width:5px;' },
+      { pos: 'w',  cursor: 'ew-resize',   style: 'top:4px;left:0;bottom:4px;width:5px;' },
+      { pos: 'ne', cursor: 'ne-resize',   style: 'top:0;right:0;width:10px;height:10px;' },
+      { pos: 'nw', cursor: 'nw-resize',   style: 'top:0;left:0;width:10px;height:10px;' },
+      { pos: 'se', cursor: 'se-resize',   style: 'bottom:0;right:0;width:10px;height:10px;' },
+      { pos: 'sw', cursor: 'sw-resize',   style: 'bottom:0;left:0;width:10px;height:10px;' },
+    ];
     edges.forEach(({ pos, cursor, style }) => {
       const handle = document.createElement('div');
       handle.style.cssText = `position:absolute;${style}cursor:${cursor};z-index:10;`;
